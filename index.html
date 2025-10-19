@@ -94,77 +94,91 @@
   </div>
 
   <script>
-    // ---------- SECURITY NOTE ----------
-    // This implementation uses a SHA-256 hash comparison in client-side JS.
-    // It prevents casual users from seeing the password in plain text inside the file,
-    // but it is NOT a substitute for server-side authentication. If your images are sensitive,
-    // host them privately (S3/Cloudinary/MEGA) and generate signed URLs server-side.
+  // ---------- SECURITY NOTE ----------
+  // This implementation uses a SHA-256 hash comparison in client-side JS.
+  // It prevents casual users from seeing the password in plain text inside the file,
+  // but it is NOT a substitute for server-side authentication.
 
-    // ===== CONFIGURE PASSWORD HASH HERE =====
-    // Replace the value of PASSTARGET with the SHA-256 (hex) of the password you want.
-    // Default password (for demo) is: "cutecute"
-    const PASSTARGET = '654d223d3b8e92b52e7b3dcf6caa104b85d988980c9d4f9acce31a44d341213e';
-    // NOTE: the above is a placeholder. Please generate a real SHA-256 hash and paste it here.
+  // ===== CONFIGURE PASSWORD HASH HERE =====
+  // Replace the value of PASSTARGET with the SHA-256 (hex) of the password you want.
+  // Default password (for demo) is: "cutecute"
+  const PASSTARGET = '654d223d3b8e92b52e7b3dcf6caa104b85d988980c9d4f9acce31a44d341213e';
 
-    // Utility: convert buffer -> hex
-    function buf2hex(buffer){return Array.from(new Uint8Array(buffer)).map(b=>b.toString(16).padStart(2,'0')).join('')}
+  // Utility: convert buffer -> hex
+  function buf2hex(buffer) {
+    return Array.from(new Uint8Array(buffer))
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('');
+  }
 
-    async function hashPassword(text){
-      const enc = new TextEncoder();
-      const data = enc.encode(text);
-      const hash = await crypto.subtle.digest('SHA-256', data);
-      return buf2hex(hash);
+  async function hashPassword(text) {
+    const enc = new TextEncoder();
+    const data = enc.encode(text);
+    const hash = await crypto.subtle.digest('SHA-256', data);
+    return buf2hex(hash);
+  }
+
+  // DOM
+  const pwInput = document.getElementById('pw');
+  const unlock = document.getElementById('unlock');
+  const gate = document.getElementById('gate');
+  const galleryRoot = document.getElementById('galleryRoot');
+  const gallery = document.getElementById('gallery');
+
+  unlock.addEventListener('click', tryOpen);
+  pwInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') tryOpen();
+  });
+
+  async function tryOpen() {
+    const val = pwInput.value || '';
+    const h = await hashPassword(val);
+    if (h === PASSTARGET) {
+      // success
+      gate.style.display = 'none';
+      galleryRoot.style.display = 'block';
+      // remove #open from URL so it won't auto-open later
+      history.replaceState({}, '', location.pathname);
+    } else {
+      gate.animate(
+        [
+          { transform: 'translateX(0)' },
+          { transform: 'translateX(-10px)' },
+          { transform: 'translateX(10px)' },
+          { transform: 'translateX(0)' }
+        ],
+        { duration: 350 }
+      );
+      pwInput.value = '';
+      pwInput.focus();
     }
+  }
 
-    // DOM
-    const pwInput = document.getElementById('pw');
-    const unlock = document.getElementById('unlock');
-    const gate = document.getElementById('gate');
-    const galleryRoot = document.getElementById('galleryRoot');
-    const gallery = document.getElementById('gallery');
+  // Lightbox
+  const lightbox = document.getElementById('lightbox');
+  const lightImg = document.getElementById('lightImg');
+  const closeL = document.getElementById('closeL');
 
-    unlock.addEventListener('click', tryOpen);
-    pwInput.addEventListener('keydown', (e)=>{ if(e.key === 'Enter') tryOpen() });
-
-    async function tryOpen(){
-      const val = pwInput.value || '';
-      const h = await hashPassword(val);
-if(h === PASSTARGET){
-  // success
-  gate.style.display = 'none';
-  galleryRoot.style.display = 'block';
-  // Xóa #open khỏi URL để không tự mở lại
-  history.replaceState({}, '', location.pathname);
-} else {
-        // shake animation
-        gate.animate([{transform:'translateX(0)'},{transform:'translateX(-10px)'},{transform:'translateX(10px)'},{transform:'translateX(0)'}],{duration:350});
-        pwInput.value = '';
-        pwInput.focus();
-      }
+  gallery.addEventListener('click', e => {
+    const img = e.target.closest('img');
+    if (!img) return;
+    const src = img.getAttribute('data-full') || img.src;
+    lightImg.src = src;
+    lightbox.classList.add('active');
+  });
+  closeL.addEventListener('click', () => {
+    lightbox.classList.remove('active');
+    lightImg.src = '';
+  });
+  lightbox.addEventListener('click', e => {
+    if (e.target === lightbox) {
+      lightbox.classList.remove('active');
+      lightImg.src = '';
     }
+  });
 
-    // Lightbox
-    const lightbox = document.getElementById('lightbox');
-    const lightImg = document.getElementById('lightImg');
-    const closeL = document.getElementById('closeL');
-
-    gallery.addEventListener('click', (e)=>{
-      const img = e.target.closest('img');
-      if(!img) return;
-      const src = img.getAttribute('data-full') || img.src;
-      lightImg.src = src;
-      lightbox.classList.add('active');
-    });
-    closeL.addEventListener('click', ()=>{ lightbox.classList.remove('active'); lightImg.src = '' });
-    lightbox.addEventListener('click', (e)=>{ if(e.target === lightbox) { lightbox.classList.remove('active'); lightImg.src = '' } });
-
-    // Convenience: generate SHA-256 in browser console
-    // Open browser console and run: hashPassword('your-new-password').then(h=>console.log(h))
-
-    // Bỏ tính năng auto mở (luôn yêu cầu nhập mật khẩu)
-if(location.hash === '#open'){
-  history.replaceState({}, '', location.pathname);
-}
-  </script>
-</body>
-</html>
+  // Remove #open on load so the page always asks for password
+  if (location.hash === '#open') {
+    history.replaceState({}, '', location.pathname);
+  }
+</script>
