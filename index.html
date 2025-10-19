@@ -24,13 +24,13 @@
   font-family: Inter, "Segoe UI", Roboto, system-ui, -apple-system;
   color: #222;
   min-height: 100vh;
-  display: block;              /* ✅ Cho phép trang cuộn */
+  display: block; /* ✅ bỏ flex để cho phép cuộn */
   padding: 32px;
-  background: url("https://i.imgur.com/z7aApkr.jpeg") center/cover no-repeat;
+  background: url("https://i.imgur.com/z7aApkr.jpeg") center/cover no-repeat fixed;
+  background-attachment: fixed; /* nền cố định khi cuộn */
   position: relative;
-  overflow-x: hidden;          /* Chỉ ẩn cuộn ngang, vẫn cuộn dọc được */
-}}
-
+  overflow-x: hidden; /* chỉ ẩn cuộn ngang, vẫn cuộn dọc được */
+}
   /* Lớp phủ mờ + hồng nhẹ */
   body::before {
     content: "";
@@ -144,14 +144,10 @@
   @media (max-width: 520px) {
     .cute { display: none; }
     .gate { padding: 20px; }
-  }
-    #galleryRoot {
-  background: white;
-  border-radius: 24px;
-  padding: 32px;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.1);
+.gate {
+  margin: 80px auto;  /* căn giữa theo chiều ngang */
+  max-width: 800px;
 }
-
 </style>
 </head>
 <body>
