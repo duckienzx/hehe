@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cute Private Gallery</title>
+  <style>
+    :root{
+      --bg:#FFF7F9; --card:#fff; --accent:#ff86c1; --accent2:#ffd9e8; --muted:#8b8b9a; --glass: rgba(255,255,255,0.6);
+      --radius:18px; --gap:16px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter, "Segoe UI", Roboto, system-ui, -apple-system; background:linear-gradient(135deg,var(--accent2),#fff 40%); color:#222; min-height:100vh; display:flex; align-items:center; justify-content:center; padding:32px}
+    .wrap{width:100%;max-width:980px}
+
+    /* Lock screen */
+    .gate{background:linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0.95)); border-radius:24px; padding:32px; box-shadow: 0 8px 30px rgba(255,132,184,0.12); display:flex; gap:20px; align-items:center}
+    .cute{width:140px;height:140px;border-radius:20px;background:conic-gradient(from 200deg at 50% 50%, var(--accent), #ffb7dd); display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(255,133,180,0.15);flex-shrink:0}
+    .cute .emoji{font-size:56px}
+    .meta{flex:1}
+    h1{margin:0;font-size:20px}
+    p.lead{margin:6px 0 14px;color:var(--muted)}
+    .pwrow{display:flex;gap:8px}
+    input[type="password"]{flex:1;padding:12px 14px;border-radius:12px;border:1px solid rgba(0,0,0,0.06);background:var(--glass);outline:none;font-size:15px}
+    button.btn{padding:12px 16px;border-radius:12px;border:0;background:linear-gradient(90deg,var(--accent),#ff6fa9);color:#fff;font-weight:600;cursor:pointer}
+    .hint{font-size:13px;color:var(--muted);margin-top:10px}
+
+    /* Gallery */
+    .gallery{margin-top:22px; display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:12px}
+    .card{background:var(--card);border-radius:14px;overflow:hidden;box-shadow:0 6px 18px rgba(12,12,20,0.04);cursor:pointer;transition:transform .15s}
+    .card img{width:100%;height:160px;object-fit:cover;display:block}
+    .card:hover{transform:translateY(-6px)}
+
+    /* Lightbox */
+    .lightbox{position:fixed;inset:0;background:rgba(12,12,20,0.7);display:none;align-items:center;justify-content:center;padding:20px}
+    .lightbox.active{display:flex}
+    .lightbox img{max-width:95%;max-height:90%;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,0.6)}
+
+    /* footer */
+    .footer{margin-top:14px;text-align:center;color:var(--muted);font-size:13px}
+
+    /* small screens */
+    @media (max-width:520px){.cute{display:none}.gate{padding:20px}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="gate" id="gate">
+      <div class="cute"><div class="emoji">🌸</div></div>
+      <div class="meta">
+        <h1>Trang ảnh riêng tư — Cute Gallery</h1>
+        <p class="lead">Nhập mật khẩu để xem album. Giao diện dễ thương, phù hợp chia cho bạn bè hoặc làm portfolio riêng tư.</p>
+        <div class="pwrow">
+          <input id="pw" type="password" placeholder="Nhập mật khẩu" aria-label="Mật khẩu" />
+          <button class="btn" id="unlock">Mở</button>
+        </div>
+        <div class="hint">Mẹo: thay đổi mật khẩu trong file <code>index.html</code> (mã hóa SHA-256 được sử dụng để so sánh).</div>
+      </div>
+    </div>
+
+    <!-- Gallery (ẩn mặc định) -->
+    <div id="galleryRoot" style="display:none">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+        <h2 style="margin:0">Album của bạn</h2>
+        <div style="font-size:14px;color:var(--muted)">Chỉ ai có mật khẩu mới xem</div>
+      </div>
+
+      <div class="gallery" id="gallery">
+        <!-- Replace the image URLs below with your own direct links -->
+        <div class="card"><img src="https://i.imgur.com/ublWsSR.jpeg"></div>
+        <div class="card"><img src="https://i.imgur.com/4WmkY9R.jpeg"></div>
+        <div class="card"><img src="https://i.imgur.com/Q0KG8op.jpeg"></div>
+        <div class="card"><img src="https://i.imgur.com/xYtncPE.jpeg"></div>
+        <div class="card"><img src="https://i.imgur.com/lEoa7ed.jpeg"></div>
+        <div class="card"><img src="https://i.imgur.com/MfuAZQS.jpeg"></div>
+<div class="card"><img src="https://i.imgur.com/KisPT33.jpeg"></div>
+<div class="card"><img src="https://i.imgur.com/ftNxe7n.jpeg"></div>
+<div class="card"><img src="https://i.imgur.com/J1uceCU.jpeg"></div>
+<div class="card"><img src="https://i.imgur.com/1JIaKKd.jpeg"></div>
+<div class="card"><img src="https://i.imgur.com/eJCXPMC.jpeg"></div>
+<div class="card"><img src="https://i.imgur.com/KlaUikS.jpeg"></div>
+<div class="card"><img src="https://i.imgur.com/hQmPolC.jpeg"></div>
+<div class="card"><img src="https://i.imgur.com/xaASCe6.jpeg"></div>
+<div class="card"><img src="https://i.imgur.com/cLR9e3S.jpeg"></div>
+<div class="card"><img src="https://i.imgur.com/acPIGzy.jpeg"></div>
+<div class="card"><img src="https://i.imgur.com/qJB7zG1.jpeg"></div>
+<div class="card"><img src="https://i.imgur.com/O88Lsn9.jpeg"></div>
+      </div>
+
+      <div class="footer">ĐÂY LÀ ẢNH TẬP THỂ LỚP MÌNH </div>
+    </div>
+
+    <div class="lightbox" id="lightbox"><img id="lightImg" src=""><button id="closeL" style="position:absolute;top:20px;right:20px;background:none;border:none;color:#fff;font-size:28px;cursor:pointer">✕</button></div>
+  </div>
+
+  <script>
+    // ---------- SECURITY NOTE ----------
+    // This implementation uses a SHA-256 hash comparison in client-side JS.
+    // It prevents casual users from seeing the password in plain text inside the file,
+    // but it is NOT a substitute for server-side authentication. If your images are sensitive,
+    // host them privately (S3/Cloudinary/MEGA) and generate signed URLs server-side.
+
+    // ===== CONFIGURE PASSWORD HASH HERE =====
+    // Replace the value of PASSTARGET with the SHA-256 (hex) of the password you want.
+    // Default password (for demo) is: "cutecute"
+    const PASSTARGET = '654d223d3b8e92b52e7b3dcf6caa104b85d988980c9d4f9acce31a44d341213e';
+    // NOTE: the above is a placeholder. Please generate a real SHA-256 hash and paste it here.
+
+    // Utility: convert buffer -> hex
+    function buf2hex(buffer){return Array.from(new Uint8Array(buffer)).map(b=>b.toString(16).padStart(2,'0')).join('')}
+
+    async function hashPassword(text){
+      const enc = new TextEncoder();
+      const data = enc.encode(text);
+      const hash = await crypto.subtle.digest('SHA-256', data);
+      return buf2hex(hash);
+    }
+
+    // DOM
+    const pwInput = document.getElementById('pw');
+    const unlock = document.getElementById('unlock');
+    const gate = document.getElementById('gate');
+    const galleryRoot = document.getElementById('galleryRoot');
+    const gallery = document.getElementById('gallery');
+
+    unlock.addEventListener('click', tryOpen);
+    pwInput.addEventListener('keydown', (e)=>{ if(e.key === 'Enter') tryOpen() });
+
+    async function tryOpen(){
+      const val = pwInput.value || '';
+      const h = await hashPassword(val);
+      if(h === PASSTARGET){
+        // success
+        gate.style.display = 'none';
+        galleryRoot.style.display = 'block';
+        history.replaceState({}, '', '#open');
+      } else {
+        // shake animation
+        gate.animate([{transform:'translateX(0)'},{transform:'translateX(-10px)'},{transform:'translateX(10px)'},{transform:'translateX(0)'}],{duration:350});
+        pwInput.value = '';
+        pwInput.focus();
+      }
+    }
+
+    // Lightbox
+    const lightbox = document.getElementById('lightbox');
+    const lightImg = document.getElementById('lightImg');
+    const closeL = document.getElementById('closeL');
+
+    gallery.addEventListener('click', (e)=>{
+      const img = e.target.closest('img');
+      if(!img) return;
+      const src = img.getAttribute('data-full') || img.src;
+      lightImg.src = src;
+      lightbox.classList.add('active');
+    });
+    closeL.addEventListener('click', ()=>{ lightbox.classList.remove('active'); lightImg.src = '' });
+    lightbox.addEventListener('click', (e)=>{ if(e.target === lightbox) { lightbox.classList.remove('active'); lightImg.src = '' } });
+
+    // Convenience: generate SHA-256 in browser console
+    // Open browser console and run: hashPassword('your-new-password').then(h=>console.log(h))
+
+    // Auto-open if URL has #open
+    if(location.hash === '#open'){
+      gate.style.display = 'none'; galleryRoot.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
