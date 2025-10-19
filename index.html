@@ -19,17 +19,18 @@
   * { box-sizing: border-box; }
 
   /* Nền ảnh mờ */
- body {
+body {
   margin: 0;
   font-family: Inter, "Segoe UI", Roboto, system-ui, -apple-system;
   color: #222;
   min-height: 100vh;
-  display: block; /* ✅ bỏ flex để cho phép cuộn */
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 32px;
-  background: url("https://i.imgur.com/z7aApkr.jpeg") center/cover no-repeat fixed;
-  background-attachment: fixed; /* nền cố định khi cuộn */
+  background: url("https://i.imgur.com/z7aApkr.jpeg") center/cover no-repeat;
   position: relative;
-  overflow-x: hidden; /* chỉ ẩn cuộn ngang, vẫn cuộn dọc được */
+  overflow: hidden;
 }
   /* Lớp phủ mờ + hồng nhẹ */
   body::before {
