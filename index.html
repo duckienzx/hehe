@@ -19,20 +19,17 @@
   * { box-sizing: border-box; }
 
   /* Nền ảnh mờ */
-  body {
-    margin: 0;
-    font-family: Inter, "Segoe UI", Roboto, system-ui, -apple-system;
-    color: #222;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 32px;
-
-    background: url("https://i.imgur.com/z7aApkr.jpeg") center/cover no-repeat;
-    position: relative;
-    overflow: hidden;
-  }
+ body {
+  margin: 0;
+  font-family: Inter, "Segoe UI", Roboto, system-ui, -apple-system;
+  color: #222;
+  min-height: 100vh;
+  display: block;              /* ✅ Cho phép trang cuộn */
+  padding: 32px;
+  background: url("https://i.imgur.com/z7aApkr.jpeg") center/cover no-repeat;
+  position: relative;
+  overflow-x: hidden;          /* Chỉ ẩn cuộn ngang, vẫn cuộn dọc được */
+}}
 
   /* Lớp phủ mờ + hồng nhẹ */
   body::before {
@@ -63,6 +60,8 @@
     gap: 20px;
     align-items: center;
     backdrop-filter: blur(12px);
+    margin: 80px auto; /* căn giữa */
+    max-width: 800px;
   }
 
   .cute {
