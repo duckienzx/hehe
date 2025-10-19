@@ -32,13 +32,8 @@ body {
 }
   /* Lớp phủ mờ + hồng nhẹ */
   body::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    background: rgba(255, 200, 220, 0.45);
-    z-index: 0;
+    content: none !important;
+    display: none !important;
   }
 
   /* Toàn bộ nội dung nằm trên lớp mờ */
