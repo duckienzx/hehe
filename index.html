@@ -129,12 +129,13 @@
     async function tryOpen(){
       const val = pwInput.value || '';
       const h = await hashPassword(val);
-      if(h === PASSTARGET){
-        // success
-        gate.style.display = 'none';
-        galleryRoot.style.display = 'block';
-        history.replaceState({}, '', '#open');
-      } else {
+if(h === PASSTARGET){
+  // success
+  gate.style.display = 'none';
+  galleryRoot.style.display = 'block';
+  // Xóa #open khỏi URL để không tự mở lại
+  history.replaceState({}, '', location.pathname);
+} else {
         // shake animation
         gate.animate([{transform:'translateX(0)'},{transform:'translateX(-10px)'},{transform:'translateX(10px)'},{transform:'translateX(0)'}],{duration:350});
         pwInput.value = '';
@@ -160,10 +161,10 @@
     // Convenience: generate SHA-256 in browser console
     // Open browser console and run: hashPassword('your-new-password').then(h=>console.log(h))
 
-    // Auto-open if URL has #open
-    if(location.hash === '#open'){
-      gate.style.display = 'none'; galleryRoot.style.display = 'block';
-    }
+    // Bỏ tính năng auto mở (luôn yêu cầu nhập mật khẩu)
+if(location.hash === '#open'){
+  history.replaceState({}, '', location.pathname);
+}
   </script>
 </body>
 </html>
