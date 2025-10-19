@@ -107,7 +107,21 @@ body {
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     gap: 12px;
   }
+    /* Gallery container nền trắng không mờ */
+.gallery-container {
+  background: #ffffff;          /* nền trắng tinh */
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  margin: 80px auto;
+  max-width: 1000px;
+  display: none; /* ẩn mặc định */
+}
 
+/* Khi hiển thị (sau khi nhập mật khẩu thành công) */
+.gallery-container.show {
+  display: block;
+}
   .card {
     background: var(--card);
     border-radius: 14px;
@@ -246,8 +260,8 @@ body {
     const h = await hashPassword(val);
     if (h === PASSTARGET) {
       // success
-      gate.style.display = 'none';
-      galleryRoot.style.display = 'block';
+     gate.style.display = 'none';
+     galleryRoot.classList.add('show');
       // remove #open from URL so it won't auto-open later
       history.replaceState({}, '', location.pathname);
     } else {
