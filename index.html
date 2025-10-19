@@ -22,14 +22,13 @@
 body {
   margin: 0;
   font-family: Inter, "Segoe UI", Roboto, system-ui, -apple-system;
+  background: url("https://i.imgur.com/z7aApkr.jpeg") center/cover no-repeat fixed; /* ảnh nền rõ nét */
   color: #222;
   min-height: 100vh;
-  display: block; /* ✅ bỏ flex để cho phép cuộn */
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 32px;
-  background: url("https://i.imgur.com/z7aApkr.jpeg") center/cover no-repeat fixed;
-  background-attachment: fixed; /* nền cố định khi cuộn */
-  position: relative;
-  overflow-x: hidden; /* chỉ ẩn cuộn ngang, vẫn cuộn dọc được */
 }
   /* Lớp phủ mờ + hồng nhẹ */
   body::before {
