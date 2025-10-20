@@ -264,18 +264,12 @@ body {
   </div>
 </div>
       <div class="footer">ĐÂY LÀ ẢNH TẬP THỂ LỚP 11B2 </div>
-    <div class="lightbox" id="lightbox"><img id="lightImg" src=""><button id="closeL" style="position:absolute;top:20px;right:20px;background:none;border:none;color:#fff;font-size:28px;cursor:pointer">✕</button></div>
+    <div class="lightbox" id="lightbox">
+    <img id="lightImg" src="">
+    <button id="closeL"
+      style="position:absolute;top:20px;right:20px;background:none;border:none;color:#fff;font-size:28px;cursor:pointer">✕</button>
   </div>
-
   <script>
-  // ---------- SECURITY NOTE ----------
-  // This implementation uses a SHA-256 hash comparison in client-side JS.
-  // It prevents casual users from seeing the password in plain text inside the file,
-  // but it is NOT a substitute for server-side authentication.
-
-  // ===== CONFIGURE PASSWORD HASH HERE =====
-  // Replace the value of PASSTARGET with the SHA-256 (hex) of the password you want.
-  // Default password (for demo) is: "cutecute"
   const PASSTARGET = '71516f97c338301dd5d1488e4dd404524fd169137f220c0058d4cb1095794871';
 
   // Utility: convert buffer -> hex
