@@ -321,3 +321,22 @@ body {
     history.replaceState({}, '', location.pathname);
   }
 </script>
+ // --- Bắt đầu thêm cánh hoa ---
+  window.onload = () => {
+    const PETAL_COUNT = 25;
+    for (let i = 0; i < PETAL_COUNT; i++) {
+      const petal = document.createElement('div');
+      petal.className = 'petal';
+      petal.style.left = Math.random() * window.innerWidth + 'px';
+      const scale = 0.5 + Math.random() * 0.8;
+      petal.style.setProperty('--scale', scale);
+      petal.style.animationDuration = 4 + Math.random() * 4 + 's';
+      petal.style.setProperty('--x', (Math.random() * 200 - 100) + 'px');
+      petal.style.setProperty('--rot', (Math.random() * 360) + 'deg');
+      document.body.appendChild(petal);
+      petal.addEventListener('animationiteration', () => {
+        petal.style.left = Math.random() * window.innerWidth + 'px';
+      });
+    }
+  };
+</script>
