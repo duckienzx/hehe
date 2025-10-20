@@ -150,37 +150,34 @@ body {
   .footer { margin-top: 14px; text-align: center; color: var(--muted); font-size: 13px; }
 
   @media (max-width: 520px) {
-    .cute { display: none; }
-    .gate { padding: 20px; }
-.gallery {
-  margin-top:22px;
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
-  gap:12px;
+  .cute { display: none; }
+  .gate { padding: 20px; }
+  .gallery {
+    margin-top:22px;
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+    gap:12px;
+  }
 }
-       .petal {
-      position: fixed;
-      top: -30px;
-      width: 15px;
-      height: 15px;
-      background-image: url('https://i.imgur.com/7x0f3sV.png'); /* cánh hoa */
-      background-size: cover;
-      pointer-events: none;
-      opacity: 0.9;
-      z-index: 9999;
-      animation: fallPetal linear infinite;
-    }
 
-    @keyframes fallPetal {
-      0% {
-        transform: translateX(0) rotate(0deg) scale(1);
-        opacity: 0.8;
-      }
-      100% {
-        transform: translateX(var(--x, 0px)) translateY(100vh) rotate(var(--rot, 360deg)) scale(var(--scale,1));
-        opacity: 0.5;
-      }
-    }
+/* --- CSS cánh hoa rơi --- */
+.petal {
+  position: fixed;
+  top: -30px;
+  width: 15px;
+  height: 15px;
+  background-image: url('https://i.imgur.com/7x0f3sV.png');
+  background-size: cover;
+  pointer-events: none;
+  opacity: 0.9;
+  z-index: 9999;
+  animation: fallPetal linear infinite;
+}
+
+@keyframes fallPetal {
+  0% { transform: translateX(0) rotate(0deg) scale(1); opacity: 0.8; }
+  100% { transform: translateX(var(--x,0px)) translateY(100vh) rotate(var(--rot,360deg)) scale(var(--scale,1)); opacity:0.5; }
+}
 </style>
 </head>
 <body>
