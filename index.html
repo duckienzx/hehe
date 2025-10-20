@@ -212,7 +212,22 @@ body {
         <div class="hint"> <code></code> make by Duc Kien.</div>
       </div>
     </div>
+    <script>
+    function createPetal() {
+      const petal = document.createElement('div');
+      petal.classList.add('petal');
+      petal.style.left = Math.random() * 100 + 'vw';
+      petal.style.setProperty('--x', (Math.random() * 200 - 100) + 'px');
+      petal.style.setProperty('--scale', (0.6 + Math.random() * 0.8).toFixed(2));
+      petal.style.setProperty('--duration', (8 + Math.random() * 6).toFixed(1) + 's');
+      document.body.appendChild(petal);
+      setTimeout(() => petal.remove(), 14000);
+    }
 
+    setInterval(createPetal, 300);
+  </script>
+</body>
+</html>
     <!-- Gallery (ẩn mặc định) -->
     <div id="galleryRoot" class="gallery-container" hidden>
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
