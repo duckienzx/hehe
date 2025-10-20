@@ -149,16 +149,31 @@ body {
   }
 
   .footer { margin-top: 14px; text-align: center; color: var(--muted); font-size: 13px; }
+/* --- Gallery layout gọn và đều --- */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 10px;
+  justify-items: center;
+  margin-top: 15px;
+}
 
-  @media (max-width: 520px) {
-  .cute { display: none; }
-  .gate { padding: 20px; }
-  .gallery {
-    margin-top:22px;
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
-    gap:12px;
-  }
+.gallery img {
+  width: 100%;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.gallery img:hover {
+  transform: scale(1.05);
+}
+
+#galleryRoot {
+  max-width: 600px;
+  margin: auto;
 }
 
 /* --- CSS cánh hoa rơi --- */
