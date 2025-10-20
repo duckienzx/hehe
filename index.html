@@ -166,21 +166,34 @@ body {
 /* --- CSS cánh hoa rơi --- */
 .petal {
   position: fixed;
-  top: -30px;
-  width: 15px;
-  height: 15px;
-  background-image: url('https://i.imgur.com/yORfn8w.png');
+  top: -10px;
+  width: 20px;
+  height: 20px;
+  background-image: url('https://i.imgur.com/yORfn8w.png'); /* cánh hoa */
   background-size: cover;
+  opacity: 0.85;
   pointer-events: none;
-  opacity: 0.9;
+  animation: fallPetal var(--duration, 10s) linear infinite;
+  transform-origin: center;
   z-index: 9999;
-  animation: fallPetal linear infinite;
+  will-change: transform;
 }
 
 @keyframes fallPetal {
-  0% { transform: translateX(0) rotate(0deg) scale(1); opacity: 0.8; }
-  100% { transform: translateX(var(--x,0px)) translateY(100vh) rotate(var(--rot,360deg)) scale(var(--scale,1)); opacity:0.5; }
+  0% {
+    transform: translateX(0) translateY(0) rotate(0deg) scale(var(--scale,1));
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(var(--x, 100px)) translateY(50vh) rotate(180deg) scale(var(--scale,1.1));
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateX(calc(var(--x, 100px) * 2)) translateY(100vh) rotate(360deg) scale(var(--scale,1));
+    opacity: 0.5;
+  }
 }
+
 </style>
 </head>
 <body>
