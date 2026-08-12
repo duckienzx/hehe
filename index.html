@@ -1,3 +1,30 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Profile Signed</title>
+    <style>
+        body { font-family: -apple-system, sans-serif; padding: 40px 15px; text-align: center; background: #f2f2f7; }
+        .card { background: white; padding: 24px; border-radius: 16px; max-width: 380px; margin: 0 auto; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        h2 { margin-bottom: 8px; color: #1c1c1e; }
+        p { font-size: 13px; color: #8e8e93; margin-bottom: 20px; }
+        input { width: 100%; padding: 12px 14px; margin-bottom: 16px; border: 1px solid #c7c7cc; border-radius: 10px; box-sizing: border-box; font-size: 16px; outline: none; }
+        button { width: 100%; padding: 14px; background: #007aff; color: white; border: none; border-radius: 10px; font-weight: 600; font-size: 16px; cursor: pointer; }
+        button:disabled { background: #aeaeb2; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>🧪 Test Profile Ký Số</h2>
+    <p>Nhập username Locket để tải file cài đặt trực tiếp vào Settings:</p>
+    
+    <input type="text" id="username" placeholder="Ví dụ: duckjenn" value="duckjenn">
+    <button id="btn" onclick="testDownload()">🚀 TẢI PROFILE KÝ SỐ TEST</button>
+</div>
+
+<script>
 async function testDownload() {
     const btn = document.getElementById('btn');
     const username = document.getElementById('username').value.trim() || "testuser";
@@ -101,7 +128,6 @@ async function testDownload() {
 
         if (response.ok) {
             const buffer = await response.arrayBuffer();
-            // Ép đúng MIME Type chuẩn của Profile iOS
             blobData = new Blob([buffer], { type: 'application/x-apple-asymmetric-key-exchange' });
         } else {
             blobData = new Blob([xmlContent], { type: 'application/x-apple-asymmetric-key-exchange' });
@@ -110,10 +136,13 @@ async function testDownload() {
         blobData = new Blob([xmlContent], { type: 'application/x-apple-asymmetric-key-exchange' });
     }
 
-    // Chuyển hướng trực tiếp để Safari tự mở popup Cài đặt Profile
     const fileUrl = URL.createObjectURL(blobData);
     window.location.href = fileUrl;
 
     btn.disabled = false;
     btn.innerText = "🚀 TẢI PROFILE KÝ SỐ TEST";
 }
+</script>
+
+</body>
+</html>
