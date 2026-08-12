@@ -1,385 +1,332 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>11B2 cuti <3</title>
-  <style>
-  :root {
-    --bg: #FFF7F9;
-    --card: #fff;
-    --accent: #ff86c1;
-    --accent2: #ffd9e8;
-    --muted: #8b8b9a;
-    --glass: rgba(255, 255, 255, 0.6);
-    --radius: 18px;
-    --gap: 16px;
-  }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NextDNS VIP Config Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Fira Code', monospace; -webkit-tap-highlight-color: transparent; }
+        body { min-height: 100vh; display: flex; justify-content: center; align-items: center; background: #eef2f7; padding: 20px 12px; color: #24292e; position: relative; overflow-x: hidden; }
+        
+        .glow-bg-1 { position: absolute; top: 5%; left: 10%; width: 300px; height: 300px; background: radial-gradient(circle, rgba(255,107,107,0.4) 0%, rgba(255,255,255,0) 70%); border-radius: 50%; filter: blur(60px); z-index: 1; }
+        .glow-bg-2 { position: absolute; bottom: 5%; right: 10%; width: 320px; height: 320px; background: radial-gradient(circle, rgba(72,219,251,0.4) 0%, rgba(255,255,255,0) 70%); border-radius: 50%; filter: blur(60px); z-index: 1; }
+        
+        .mac-window { position: relative; z-index: 10; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(209, 213, 219, 0.8); border-radius: 16px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08); width: 100%; max-width: 420px; overflow: hidden; }
+        .mac-header { background: rgba(240, 243, 246, 0.9); padding: 12px 16px; display: flex; align-items: center; border-bottom: 1px solid rgba(225, 228, 232, 0.8); position: relative; }
+        .mac-buttons { display: flex; gap: 8px; z-index: 2; }
+        .mac-btn { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+        .mac-btn.close { background: #ff5f56; } .mac-btn.minimize { background: #ffbd2e; } .mac-btn.maximize { background: #27c93f; }
+        .mac-title { position: absolute; left: 0; right: 0; text-align: center; font-size: 12px; font-weight: 600; color: #57606a; }
+        .mac-body { padding: 24px 20px; }
+        
+        .code-tag { display: inline-block; font-size: 11px; font-weight: 600; color: #0969da; background: #ddf4ff; padding: 4px 10px; border-radius: 6px; margin-bottom: 12px; }
+        h1 { font-size: 20px; font-weight: 700; color: #1f2328; margin-bottom: 6px; }
+        p.subtitle { font-size: 12px; color: #6e7781; margin-bottom: 20px; }
+        
+        .input-group { margin-bottom: 12px; text-align: left; }
+        .input-label { display: block; font-size: 12px; font-weight: 600; color: #24292e; margin-bottom: 6px; }
+        input { width: 100%; padding: 12px 14px; background: #ffffff; border: 1.5px solid #d0d7de; border-radius: 8px; color: #1f2328; font-size: 14px; outline: none; transition: border-color 0.2s; }
+        input:focus { border-color: #0969da; }
 
-  * { box-sizing: border-box; }
+        .price-tag-box { display: flex; justify-content: space-between; align-items: center; background: #f6f8fa; border: 1px dashed #0969da; border-radius: 8px; padding: 10px 14px; margin-bottom: 14px; font-size: 12px; }
+        .price-title { color: #57606a; font-weight: 600; }
+        .price-amount { color: #cf222e; font-weight: 800; font-size: 15px; }
 
-  /* Nền ảnh mờ */
-body {
-  margin: 0;
-  font-family: Inter, "Segoe UI", Roboto, system-ui, -apple-system;
-   background:
-    url("https://i.imgur.com/z7aApkr.jpeg") center/cover no-repeat fixed; /* ảnh nền rõ nét */
-  color: #222;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 32px;
-}
-  /* Lớp phủ mờ + hồng nhẹ */
-  body::before {
-    content: none !important;
-    display: none !important;
-  }
+        .btn-submit { width: 100%; padding: 14px; border: none; border-radius: 8px; background: linear-gradient(135deg, #0969da 0%, #2188ff 100%); color: #ffffff; font-size: 14px; font-weight: 700; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(9, 105, 218, 0.25); }
+        .btn-submit:disabled { background: #8cbaef; cursor: not-allowed; }
 
-  /* Toàn bộ nội dung nằm trên lớp mờ */
-  .wrap {
-    width: 100%;
-    max-width: 980px;
-    position: relative;
-    z-index: 1;
-  }
+        .qr-section { display: none; margin-top: 15px; background: #ffffff; border: 1.5px solid #0969da; border-radius: 12px; padding: 16px; text-align: center; }
+        .qr-img { width: 220px; height: 220px; border-radius: 8px; border: 1px solid #e1e4e8; margin: 12px 0; }
+        
+        .status-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 20px; font-size: 11px; font-weight: 700; background: #fff8c5; color: #9a6700; border: 1px solid #d4a72c; margin-bottom: 8px; }
+        .status-badge.approved { background: #dafbe1; color: #1a7f37; border-color: #2da44e; }
+        
+        .loader { display: inline-block; width: 12px; height: 12px; border: 2px solid #9a6700; border-radius: 50%; border-top-color: transparent; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        .btn-download { display: none; width: 100%; padding: 14px; border: none; border-radius: 8px; background: linear-gradient(135deg, #2ea44f 0%, #27c93f 100%); color: #fff; font-size: 14px; font-weight: 800; cursor: pointer; margin-top: 12px; box-shadow: 0 4px 12px rgba(39, 201, 63, 0.3); }
+        .btn-cancel { background: transparent; border: none; color: #cf222e; font-size: 11px; cursor: pointer; margin-top: 10px; text-decoration: underline; }
+        
+        .info-box { font-size: 11px; color: #24292e; text-align: left; background: #f6f8fa; padding: 10px; border-radius: 6px; line-height: 1.6; margin-top: 8px; border: 1px solid #d0d7de; }
 
-  /* Lock screen */
-  .gate {
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.95));
-    border-radius: 24px;
-    padding: 32px;
-    box-shadow: 0 8px 30px rgba(255, 132, 184, 0.15);
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    backdrop-filter: blur(12px);
-    margin: 80px auto; /* căn giữa */
-    max-width: 800px;
-  }
-
-  .cute {
-    width: 140px;
-    height: 140px;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 6px 20px rgba(255, 133, 180, 0.15);
-    flex-shrink: 0;
-  }
-
-  .meta { flex: 1; }
-  h1 { margin: 0; font-size: 20px; }
-  p.lead { margin: 6px 0 14px; color: var(--muted); }
-
-  .pwrow { display: flex; gap: 8px; }
-  input[type="password"] {
-    flex: 1;
-    padding: 12px 14px;
-    border-radius: 12px;
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    background: var(--glass);
-    outline: none;
-    font-size: 15px;
-  }
-
-  button.btn {
-    padding: 12px 16px;
-    border-radius: 12px;
-    border: 0;
-    background: linear-gradient(90deg, var(--accent), #ff6fa9);
-    color: #fff;
-    font-weight: 600;
-    cursor: pointer;
-  }
-
-  .hint { font-size: 13px; color: var(--muted); margin-top: 10px; }
-
-  /* Gallery */
-  .gallery {
-    margin-top: 22px;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 12px;
-  }
-    /* Gallery container nền trắng không mờ */
-.gallery-container {
-  background: #ffffff;          /* nền trắng tinh */
-  border-radius: 24px;
-  padding: 40px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-  margin: 80px auto;
-  max-width: 1000px;
-  display: none; /* ẩn mặc định */
-}
-
-/* Khi hiển thị (sau khi nhập mật khẩu thành công) */
-.gallery-container.show {
-  display: block;
-}
-  .card {
-    background: var(--card);
-    border-radius: 14px;
-    overflow: hidden;
-    box-shadow: 0 6px 18px rgba(12, 12, 20, 0.04);
-    cursor: pointer;
-    transition: transform .15s;
-  }
-
-  .card img { width: 100%; height: 160px; object-fit: cover; display: block; }
-  .card:hover { transform: translateY(-6px); }
-
-  /* Lightbox */
-  .lightbox {
-    position: fixed;
-    inset: 0;
-    background: rgba(12, 12, 20, 0.7);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-  }
-
-  .lightbox.active { display: flex; }
-  .lightbox img {
-    max-width: 95%;
-    max-height: 90%;
-    border-radius: 12px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
-  }
-
-  .footer { margin-top: 14px; text-align: center; color: var(--muted); font-size: 13px; }
-/* --- Gallery layout gọn và đều --- */
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-  gap: 10px;
-  justify-items: center;
-  margin-top: 15px;
-}
-
-.gallery img {
-  width: 100%;
-  height: 110px;
-  object-fit: cover;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.gallery img:hover {
-  transform: scale(1.05);
-}
-
-#galleryRoot {
-  max-width: 600px;
-  margin: auto;
-}
-
-/* --- CSS cánh hoa rơi --- */
-.petal {
-  position: fixed;
-  top: -10px;
-  width: 20px;
-  height: 20px;
-  background-image: url('https://i.imgur.com/yORfn8w.png'); /* cánh hoa */
-  background-size: cover;
-  opacity: 0.85;
-  pointer-events: none;
-  animation: fallPetal var(--duration, 10s) linear infinite;
-  transform-origin: center;
-  z-index: 9999;
-  will-change: transform;
-}
-
-@keyframes fallPetal {
-  0% {
-    transform: translateX(0) translateY(0) rotate(0deg) scale(var(--scale,1));
-    opacity: 1;
-  }
-  50% {
-    transform: translateX(var(--x, 100px)) translateY(50vh) rotate(180deg) scale(var(--scale,1.1));
-    opacity: 0.9;
-  }
-  100% {
-    transform: translateX(calc(var(--x, 100px) * 2)) translateY(100vh) rotate(360deg) scale(var(--scale,1));
-    opacity: 0.5;
-  }
-}
-
-</style>
+        .guide-section { margin-top: 24px; padding-top: 18px; border-top: 1px dashed #d0d7de; text-align: left; }
+        .guide-title { font-size: 13px; font-weight: 700; color: #1f2328; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+        .step-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+        .step-item { background: #f6f8fa; border: 1px solid #d0d7de; border-radius: 8px; padding: 10px 12px; }
+        .step-text { font-size: 12px; color: #57606a; line-height: 1.45; }
+        .step-text b { color: #0969da; }
+        .note-box { margin-top: 12px; background: #fff8c5; border: 1px solid rgba(212, 167, 44, 0.4); border-radius: 8px; padding: 10px 12px; font-size: 11.5px; color: #7d4e00; line-height: 1.45; }
+        .note-box b { color: #9a6700; }
+    </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="gate" id="gate">
-      <div class="cute">
-  <img src="https://i.imgur.com/z7aApkr.jpeg" alt="cover" style="width:100%;height:100%;object-fit:cover;border-radius:20px;">
-</div>
-      <div class="meta">
-        <h1>Album lớp 11B2</h1>
-        <p class="lead">Nhập mật khẩu để xem album. </p>
-        <div class="pwrow">
-          <input id="pw" type="password" placeholder="Nhập mật khẩu" aria-label="Mật khẩu" />
-          <button class="btn" id="unlock">Mở</button>
+
+    <div class="glow-bg-1"></div>
+    <div class="glow-bg-2"></div>
+
+    <div class="mac-window">
+        <div class="mac-header">
+            <div class="mac-buttons"><span class="mac-btn close"></span><span class="mac-btn minimize"></span><span class="mac-btn maximize"></span></div>
+            <div class="mac-title">generator.mobileconfig — zsh</div>
         </div>
-        <div class="hint"> <code></code> make by Duc Kien.</div>
-      </div>
+
+        <div class="mac-body">
+            <span class="code-tag">STATUS = "CHECKOUT";</span>
+            <h1>Tạo DNS Locket VIP</h1>
+            <p class="subtitle">Khởi tạo profile mã hóa dành riêng cho thiết bị của bạn</p>
+
+            <div id="formSection">
+                <div class="input-group">
+                    <label class="input-label" for="username">$ enter_locket_link_or_username:</label>
+                    <input type="text" id="username" placeholder="Ví dụ: https://locket.cam/darwjen" autocomplete="off">
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label" for="vipKey" style="color: #2ea44f;">🔑 $ enter_vip_key (Không bắt buộc):</label>
+                    <input type="text" id="vipKey" placeholder="Ví dụ: VIP30" autocomplete="off" oninput="applyKey()">
+                </div>
+
+                <div class="price-tag-box">
+                    <span class="price-title">🏷️ Phí khởi tạo VIP:</span>
+                    <span class="price-amount" id="displayPrice">15.000 VNĐ</span>
+                </div>
+
+                <button class="btn-submit" id="btnSubmit" onclick="submitOrder()">
+                    <span>TẠO MÃ THANH TOÁN (VIETQR)</span>
+                </button>
+            </div>
+
+            <div class="qr-section" id="qrSection">
+                <div class="status-badge" id="statusBadge">
+                    <span class="loader" id="loader"></span> ĐANG CHỜ CHỦ WEB XÁC NHẬN...
+                </div>
+                
+                <p style="font-size: 12px; color: #57606a;" id="qrNotice">Quét mã QR bằng App Ngân hàng để chuyển khoản:</p>
+
+                <img src="" id="qrImage" class="qr-img" alt="Mã VietQR BIDV">
+
+                <div class="info-box" id="infoBox">
+                    • <b>Chủ TK:</b> DUC KIEN<br>
+                    • <b>Ngân hàng:</b> BIDV (8858349181)<br>
+                    • <b>Nội dung CK:</b> <span id="ckContent" style="color: #0969da; font-weight: bold;">---</span><br>
+                    • <b>Số tiền:</b> <span id="ckAmount" style="color: #cf222e; font-weight: bold;">15.000 VNĐ</span>
+                </div>
+
+                <button class="btn-download" id="btnDownload" onclick="downloadConfig()">
+                    🚀 ĐÃ DUYỆT! BẤM TẢI PROFILE (.mobileconfig)
+                </button>
+
+                <button class="btn-cancel" onclick="resetOrder()">Hủy đơn / Tạo lại</button>
+            </div>
+
+            <div class="guide-section">
+                <div class="guide-title">📌 // GUIDE_INSTALL_IOS.md</div>
+                <ol class="step-list">
+                    <li class="step-item">
+                        <div class="step-text"><b>STEP 01:</b> Nhập link Locket/Username, thanh toán rồi bấm <b>TẢI PROFILE</b> bằng <b>Safari</b>. Chọn <i>Cho phép</i> khi được hỏi.</div>
+                    </li>
+                    <li class="step-item">
+                        <div class="step-text"><b>STEP 02:</b> Vào ứng dụng <b>Cài đặt (Settings)</b> → Chọn mục <b>Đã tải về hồ sơ</b> ở góc trên.</div>
+                    </li>
+                    <li class="step-item">
+                        <div class="step-text"><b>STEP 03:</b> Bấm <b>Cài đặt (Install)</b> ở góc trên bên phải, nhập passCode và xác nhận.</div>
+                    </li>
+                </ol>
+                <div class="note-box">
+                    <b>💡 SYSTEM_NOTE:</b> Cài đặt xong, hãy bật/tắt lại Wi-Fi hoặc 4G để DNS kích hoạt tức thì.
+                </div>
+            </div>
+        </div>
     </div>
-    <script>
-    function createPetal() {
-      const petal = document.createElement('div');
-      petal.classList.add('petal');
-      petal.style.left = Math.random() * 100 + 'vw';
-      petal.style.setProperty('--x', (Math.random() * 200 - 100) + 'px');
-      petal.style.setProperty('--scale', (0.6 + Math.random() * 0.8).toFixed(2));
-      petal.style.setProperty('--duration', (8 + Math.random() * 6).toFixed(1) + 's');
-      document.body.appendChild(petal);
-      setTimeout(() => petal.remove(), 14000);
+
+<script>
+let currentOrderId = '';
+let currentClientName = '';
+let currentPrice = 15000;
+let pollInterval = null;
+
+const BANK_ID = "BIDV";
+const ACCOUNT_NO = "8858349181";
+const ACCOUNT_NAME = "DUC KIEN";
+
+const SERVER_URL = "https://bot-dns.onrender.com"; 
+
+// Bắt sự kiện khi người dùng quay lại trang web (Back page cache)
+window.addEventListener('pageshow', function(event) {
+    resetOrder();
+});
+
+function extractUsername(input) {
+    let cleanStr = input.trim();
+    if (cleanStr.endsWith('/')) {
+        cleanStr = cleanStr.slice(0, -1);
+    }
+    const parts = cleanStr.split('/');
+    return parts[parts.length - 1];
+}
+
+function applyKey() {
+    const rawKey = document.getElementById('vipKey').value.trim();
+    if (!rawKey) {
+        currentPrice = 15000;
+        document.getElementById('displayPrice').innerText = "15.000 VNĐ";
+        document.getElementById('btnSubmit').querySelector('span').innerText = "TẠO MÃ THANH TOÁN (VIETQR)";
+        return;
     }
 
-    setInterval(createPetal, 300);
-  </script>
+    fetch(`${SERVER_URL}/check-key`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key: rawKey })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            currentPrice = data.price;
+            document.getElementById('displayPrice').innerText = `${data.price.toLocaleString('vi-VN')} VNĐ (${data.days} ngày)`;
+            
+            if (data.price === 0) {
+                document.getElementById('btnSubmit').querySelector('span').innerText = "🚀 KÍCH HOẠT MIỄN PHÍ NGAY";
+            } else {
+                document.getElementById('btnSubmit').querySelector('span').innerText = `TẠO MÃ THANH TOÁN (${data.price.toLocaleString('vi-VN')}đ)`;
+            }
+        }
+    });
+}
+
+function submitOrder() {
+    const rawInput = document.getElementById('username').value.trim();
+    if (!rawInput) {
+        alert("Vui lòng nhập Link Locket hoặc Username!");
+        return;
+    }
+
+    const extractedUser = extractUsername(rawInput);
+    currentClientName = extractedUser;
+
+    if (currentPrice === 0) {
+        document.getElementById('formSection').style.display = 'none';
+        document.getElementById('qrSection').style.display = 'block';
+        
+        const badge = document.getElementById('statusBadge');
+        badge.className = 'status-badge approved';
+        badge.innerHTML = '✅ KÍCH HOẠT THÀNH CÔNG BẰNG KEY FREE!';
+        
+        document.getElementById('qrNotice').style.display = 'none';
+        document.getElementById('qrImage').style.display = 'none';
+        document.getElementById('infoBox').style.display = 'none';
+        document.getElementById('btnDownload').style.display = 'block';
+        return;
+    }
+
+    const btnSubmit = document.getElementById('btnSubmit');
+    btnSubmit.disabled = true;
+
+    fetch(`${SERVER_URL}/create-order`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: extractedUser, amount: currentPrice })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            currentOrderId = data.order_id;
+            const memo = `LOCKET ${currentOrderId}`;
+            const qrUrl = `https://img.vietqr.io/image/${BANK_ID}-${ACCOUNT_NO}-compact.png?amount=${currentPrice}&addInfo=${encodeURIComponent(memo)}&accountName=${encodeURIComponent(ACCOUNT_NAME)}`;
+            
+            document.getElementById('ckAmount').innerText = `${currentPrice.toLocaleString('vi-VN')} VNĐ`;
+
+            showQrScreen(qrUrl, memo);
+            startPolling();
+        } else {
+            alert("Lỗi: " + (data.message || "Không thể tạo đơn hàng"));
+            btnSubmit.disabled = false;
+        }
+    })
+    .catch(err => {
+        alert("Không thể kết nối đến máy chủ!");
+        btnSubmit.disabled = false;
+    });
+}
+
+function showQrScreen(qrUrl, memo) {
+    document.getElementById('qrImage').src = qrUrl;
+    document.getElementById('ckContent').innerText = memo;
+    document.getElementById('formSection').style.display = 'none';
+    document.getElementById('qrSection').style.display = 'block';
+}
+
+function startPolling() {
+    if (pollInterval) clearInterval(pollInterval);
+    
+    pollInterval = setInterval(() => {
+        fetch(`${SERVER_URL}/check-status/${currentOrderId}`)
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === 'APPROVED') {
+                clearInterval(pollInterval);
+
+                const badge = document.getElementById('statusBadge');
+                badge.className = 'status-badge approved';
+                badge.innerHTML = '✅ ĐÃ XÁC NHẬN CHUYỂN TIỀN THÀNH CÔNG!';
+                
+                document.getElementById('btnDownload').style.display = 'block';
+            }
+        })
+        .catch(err => console.log("Polling error..."));
+    }, 2000);
+}
+
+function resetOrder() {
+    if (pollInterval) clearInterval(pollInterval);
+    
+    if (currentOrderId) {
+        fetch(`${SERVER_URL}/cancel-order`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ order_id: currentOrderId })
+        }).catch(err => console.log("Lỗi hủy đơn"));
+    }
+
+    currentOrderId = '';
+    currentPrice = 15000;
+    
+    document.getElementById('username').value = '';
+    document.getElementById('vipKey').value = '';
+    document.getElementById('displayPrice').innerText = "15.000 VNĐ";
+
+    document.getElementById('qrSection').style.display = 'none';
+    document.getElementById('btnDownload').style.display = 'none';
+    document.getElementById('formSection').style.display = 'block';
+    
+    const btnSubmit = document.getElementById('btnSubmit');
+    btnSubmit.disabled = false;
+    btnSubmit.querySelector('span').innerText = "TẠO MÃ THANH TOÁN (VIETQR)";
+}
+
+// HÀM TẢI PROFILE ĐÃ ĐƯỢC KÝ SỐ + ĐẦY ĐỦ USERNAME VÀ ID DNS
+function downloadConfig() {
+    const dnsList = [
+        "ed4988", "c46c6d", "ab98f6", "1f7766", "8ae476",
+        "58a9ef", "1b3dec", "e8caf2", "ba82d8", "de8631"
+    ];
+
+    const selectedDnsId = dnsList[Math.floor(Math.random() * dnsList.length)];
+    
+    // Tên hiển thị cá nhân hóa
+    const profileName = `NextDNS (${selectedDnsId}) · ${currentClientName}`;
+
+    // Tải file trực tiếp qua link ký số chính chủ NextDNS đã truyền cấu hình tên
+    const signedUrl = `https://apple.nextdns.io/${selectedDnsId}/${encodeURIComponent(currentClientName)}/${encodeURIComponent(profileName)}.mobileconfig?sign=1`;
+
+    window.location.href = signedUrl;
+
+    setTimeout(() => {
+        resetOrder();
+    }, 3000);
+}
+</script>
+
 </body>
 </html>
-    <!-- Gallery (ẩn mặc định) -->
-    <div id="galleryRoot" class="gallery-container" hidden>
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-        <h2 style="margin:0">Album của bạn</h2>
-        <div style="font-size:14px;color:var(--muted)">Chỉ ai có mật khẩu mới xem</div>
-      </div>
-
-      <div class="gallery" id="gallery">
-        <!-- Replace the image URLs below with your own direct links -->
-        <div class="card"><img src="https://i.imgur.com/ublWsSR.jpeg"></div>
-        <div class="card"><img src="https://i.imgur.com/4WmkY9R.jpeg"></div>
-        <div class="card"><img src="https://i.imgur.com/Q0KG8op.jpeg"></div>
-        <div class="card"><img src="https://i.imgur.com/xYtncPE.jpeg"></div>
-        <div class="card"><img src="https://i.imgur.com/lEoa7ed.jpeg"></div>
-        <div class="card"><img src="https://i.imgur.com/MfuAZQS.jpeg"></div>
-<div class="card"><img src="https://i.imgur.com/KisPT33.jpeg"></div>
-<div class="card"><img src="https://i.imgur.com/ftNxe7n.jpeg"></div>
-<div class="card"><img src="https://i.imgur.com/J1uceCU.jpeg"></div>
-<div class="card"><img src="https://i.imgur.com/1JIaKKd.jpeg"></div>
-<div class="card"><img src="https://i.imgur.com/eJCXPMC.jpeg"></div>
-<div class="card"><img src="https://i.imgur.com/KlaUikS.jpeg"></div>
-<div class="card"><img src="https://i.imgur.com/hQmPolC.jpeg"></div>
-<div class="card"><img src="https://i.imgur.com/xaASCe6.jpeg"></div>
-<div class="card"><img src="https://i.imgur.com/cLR9e3S.jpeg"></div>
-<div class="card"><img src="https://i.imgur.com/acPIGzy.jpeg"></div>
-<div class="card"><img src="https://i.imgur.com/qJB7zG1.jpeg"></div>
-<div class="card"><img src="https://i.imgur.com/O88Lsn9.jpeg"></div>
-      </div>
-      <!-- Video nằm trong phần galleryRoot, chỉ hiển thị sau khi mở khóa -->
-<div class="video-section" style="margin-top:40px;">
-  <h2 style="margin-bottom:12px; text-align:center;">🎬 Video lớp 11B2</h2>
-  <div style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:12px;">
-    <iframe src="https://drive.google.com/file/d/1i8tR6wqc1SAg1xyl5uEmhYJ8QInJ9YAW/preview"
-            style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;"
-            allowfullscreen></iframe>
-  </div>
-</div>
-      <div class="footer">ĐÂY LÀ ẢNH TẬP THỂ LỚP 11B2 </div>
-    <div class="lightbox" id="lightbox">
-    <img id="lightImg" src="">
-    <button id="closeL"
-      style="position:absolute;top:20px;right:20px;background:none;border:none;color:#fff;font-size:28px;cursor:pointer">✕</button>
-  </div>
-  <script>
-  const PASSTARGET = '71516f97c338301dd5d1488e4dd404524fd169137f220c0058d4cb1095794871';
-
-  // Utility: convert buffer -> hex
-  function buf2hex(buffer) {
-    return Array.from(new Uint8Array(buffer))
-      .map(b => b.toString(16).padStart(2, '0'))
-      .join('');
-  }
-
-  async function hashPassword(text) {
-    const enc = new TextEncoder();
-    const data = enc.encode(text);
-    const hash = await crypto.subtle.digest('SHA-256', data);
-    return buf2hex(hash);
-  }
-
-  // DOM
-  const pwInput = document.getElementById('pw');
-  const unlock = document.getElementById('unlock');
-  const gate = document.getElementById('gate');
-  const galleryRoot = document.getElementById('galleryRoot');
-  const gallery = document.getElementById('gallery');
-
-  unlock.addEventListener('click', tryOpen);
-  pwInput.addEventListener('keydown', e => {
-    if (e.key === 'Enter') tryOpen();
-  });
-
-  async function tryOpen() {
-    const val = pwInput.value || '';
-    const h = await hashPassword(val);
-    if (h === PASSTARGET) {
-      // success
-     gate.style.display = 'none';
-     galleryRoot.classList.add('show');
-      // remove #open from URL so it won't auto-open later
-      history.replaceState({}, '', location.pathname);
-    } else {
-      gate.animate(
-        [
-          { transform: 'translateX(0)' },
-          { transform: 'translateX(-10px)' },
-          { transform: 'translateX(10px)' },
-          { transform: 'translateX(0)' }
-        ],
-        { duration: 350 }
-      );
-      pwInput.value = '';
-      pwInput.focus();
-    }
-  }
-
-  // Lightbox
-  const lightbox = document.getElementById('lightbox');
-  const lightImg = document.getElementById('lightImg');
-  const closeL = document.getElementById('closeL');
-
-  gallery.addEventListener('click', e => {
-    const img = e.target.closest('img');
-    if (!img) return;
-    const src = img.getAttribute('data-full') || img.src;
-    lightImg.src = src;
-    lightbox.classList.add('active');
-  });
-  closeL.addEventListener('click', () => {
-    lightbox.classList.remove('active');
-    lightImg.src = '';
-  });
-  lightbox.addEventListener('click', e => {
-    if (e.target === lightbox) {
-      lightbox.classList.remove('active');
-      lightImg.src = '';
-    }
-  });
-
-  // Remove #open on load so the page always asks for password
-  if (location.hash === '#open') {
-    history.replaceState({}, '', location.pathname);
-  }
- // --- Bắt đầu thêm cánh hoa ---
-  window.onload = () => {
-    const PETAL_COUNT = 25;
-    for (let i = 0; i < PETAL_COUNT; i++) {
-      const petal = document.createElement('div');
-      petal.className = 'petal';
-      petal.style.left = Math.random() * window.innerWidth + 'px';
-      const scale = 0.5 + Math.random() * 0.8;
-      petal.style.setProperty('--scale', scale);
-      petal.style.animationDuration = 4 + Math.random() * 4 + 's';
-      petal.style.setProperty('--x', (Math.random() * 200 - 100) + 'px');
-      petal.style.setProperty('--rot', (Math.random() * 360) + 'deg');
-      document.body.appendChild(petal);
-      petal.addEventListener('animationiteration', () => {
-        petal.style.left = Math.random() * window.innerWidth + 'px';
-      });
-    }
-  };
-</script>
