@@ -7,30 +7,32 @@
     <style>
         body { font-family: -apple-system, sans-serif; padding: 40px 15px; text-align: center; background: #f2f2f7; }
         .card { background: white; padding: 24px; border-radius: 16px; max-width: 380px; margin: 0 auto; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
-        input { width: 100%; padding: 12px; margin: 12px 0 20px; border: 1px solid #ccc; border-radius: 10px; font-size: 16px; box-sizing: border-box; }
-        button { width: 100%; padding: 14px; background: #007aff; color: white; border: none; border-radius: 10px; font-weight: bold; font-size: 16px; cursor: pointer; }
+        h2 { margin-bottom: 8px; color: #1c1c1e; }
+        p { font-size: 13px; color: #8e8e93; margin-bottom: 20px; }
+        input { width: 100%; padding: 12px 14px; margin-bottom: 16px; border: 1px solid #c7c7cc; border-radius: 10px; box-sizing: border-box; font-size: 16px; outline: none; }
+        button { width: 100%; padding: 14px; background: #007aff; color: white; border: none; border-radius: 10px; font-weight: 600; font-size: 16px; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <h2>🧪 Test Cài Profile Trực Tiếp</h2>
-    <p style="font-size: 13px; color: #666;">Bấm tải để test xem Safari có mở thẳng Cài đặt không:</p>
+    <h2>🧪 Test Profile Cài Thẳng Settings</h2>
+    <p>Nhập username Locket để kiểm tra xem Safari có nảy thẳng vào Cài đặt không:</p>
     
-    <input type="text" id="username" value="duckjenn" placeholder="Nhập username">
+    <input type="text" id="username" placeholder="Ví dụ: duckjenn" value="duckjenn">
     <button onclick="testDownload()">🚀 TẢI PROFILE VÀO SETTINGS</button>
 </div>
 
 <script>
-// Thay đường dẫn này bằng URL Render sau khi deploy server test thành công
-const TEST_SERVER_URL = "https://tên-service-test.onrender.com"; 
+// Server Test trên Render của bạn
+const TEST_SERVER_URL = "https://hehe-owwy.onrender.com"; 
 
 function testDownload() {
     const user = document.getElementById('username').value.trim() || 'duckjenn';
     const dnsList = ["ed4988", "c46c6d", "ab98f6", "1f7766", "8ae476", "58a9ef", "1b3dec", "e8caf2", "ba82d8", "de8631"];
     const randomDns = dnsList[Math.floor(Math.random() * dnsList.length)];
 
-    // Gọi thẳng endpoint chứa đuôi .mobileconfig
+    // Gọi thẳng API Render trả về file .mobileconfig
     window.location.href = `${TEST_SERVER_URL}/download-profile/${randomDns}/${encodeURIComponent(user)}.mobileconfig`;
 }
 </script>
