@@ -1,28 +1,3 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test Profile Signed</title>
-    <style>
-        body { font-family: -apple-system, sans-serif; padding: 30px 15px; text-align: center; background: #f2f2f7; }
-        .card { background: white; padding: 20px; border-radius: 12px; max-width: 380px; margin: 0 auto; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        input { width: 100%; padding: 12px; margin: 10px 0 20px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
-        button { width: 100%; padding: 14px; background: #007aff; color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; }
-        button:disabled { background: #8e8e93; }
-    </style>
-</head>
-<body>
-
-<div class="card">
-    <h2>🧪 Test DNS Profile Ký Số</h2>
-    <p style="font-size: 13px; color: #666;">Nhập username Locket để tải file test trực tiếp bằng Safari:</p>
-    
-    <input type="text" id="username" placeholder="Ví dụ: duckjenn" value="duckjenn">
-    <button id="btn" onclick="testDownload()">🚀 TẢI PROFILE KÝ SỐ TEST</button>
-</div>
-
-<script>
 async function testDownload() {
     const btn = document.getElementById('btn');
     const username = document.getElementById('username').value.trim() || "testuser";
@@ -116,42 +91,29 @@ async function testDownload() {
   </dict>
 </plist>`;
 
+    let blobData;
     try {
-        // Gửi qua Server API ký số profile iOS
         const response = await fetch("https://sign.mobileconfig.app/api/sign", {
             method: "POST",
             headers: { "Content-Type": "text/plain" },
             body: xmlContent
         });
 
-        let downloadBlob;
         if (response.ok) {
-            downloadBlob = await response.blob();
+            const buffer = await response.arrayBuffer();
+            // Ép đúng MIME Type chuẩn của Profile iOS
+            blobData = new Blob([buffer], { type: 'application/x-apple-asymmetric-key-exchange' });
         } else {
-            downloadBlob = new Blob([xmlContent], { type: 'application/x-apple-asymmetric-key-exchange' });
+            blobData = new Blob([xmlContent], { type: 'application/x-apple-asymmetric-key-exchange' });
         }
-
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(downloadBlob);
-        link.download = `NextDNS_${selectedDnsId}_${username}.mobileconfig`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-
     } catch (err) {
-        const blob = new Blob([xmlContent], { type: 'application/x-apple-asymmetric-key-exchange' });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = `NextDNS_${selectedDnsId}_${username}.mobileconfig`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        blobData = new Blob([xmlContent], { type: 'application/x-apple-asymmetric-key-exchange' });
     }
+
+    // Chuyển hướng trực tiếp để Safari tự mở popup Cài đặt Profile
+    const fileUrl = URL.createObjectURL(blobData);
+    window.location.href = fileUrl;
 
     btn.disabled = false;
     btn.innerText = "🚀 TẢI PROFILE KÝ SỐ TEST";
 }
-</script>
-
-</body>
-</html>
